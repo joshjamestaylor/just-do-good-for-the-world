@@ -1,0 +1,7 @@
+# OS / editor
+.DS_Store
+.idea
+.fleet
+.vscode
+
+# Backend and frontend each have their own .gitignore.

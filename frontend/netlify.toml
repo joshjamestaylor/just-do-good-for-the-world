@@ -1,0 +1,21 @@
+# Netlify config for the DETACHED static frontend.
+#
+# This file lives inside frontend/ so it travels with the app when it is split
+# into its own repository. Deploying from the monorepo? Set the Netlify site's
+# "Base directory" to `frontend` so this config and the build run from here.
+
+[build]
+  command = "npm run generate"
+  publish = ".output/public"
+
+[build.environment]
+  # Force a fully static export (bare "netlify" would be serverless).
+  NITRO_PRESET = "netlify-static"
+  # Set NUXT_PUBLIC_API_BASE in the Netlify UI (or here) to your public API,
+  # e.g. https://cms.example.com/api/v1 — it is baked in at build time.
+
+# SPA fallback so the token-guarded /preview/* route works on the static host.
+[[redirects]]
+  from = "/preview/*"
+  to = "/index.html"
+  status = 200
