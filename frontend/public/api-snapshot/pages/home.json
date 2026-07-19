@@ -16,7 +16,7 @@
           "description": "This whole section is a \"page_section\" block. Every field you see was set in the CMS and delivered as JSON — edit it in Filament and the frontend updates with no code change.",
           "icon": "i-lucide-rocket",
           "orientation": "horizontal",
-          "reverse": false,
+          "reverse": true,
           "image": null,
           "links": [
             {
@@ -77,6 +77,6 @@
         }
       }
     ],
-    "updatedAt": "2026-07-19T22:12:43+00:00"
+    "updatedAt": "2026-07-19T22:20:04+00:00"
   }
 }
