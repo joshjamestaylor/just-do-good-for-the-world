@@ -18,6 +18,9 @@ logs
 .fleet
 .idea
 
+# Netlify CLI state (links this folder to the remote site)
+.netlify
+
 # Generated-types manifest (the api.ts itself IS committed as the FE/BE contract)
 types/typescript-transformer-manifest.json
 

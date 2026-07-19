@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
@@ -40,38 +43,51 @@ export default defineNuxtConfig({
 
   hooks: {
     /**
-     * At build time (nuxt generate), enumerate every published page from the API
-     * so each slug is prerendered to a static file — the response is baked into
-     * the static output, so the deployed site never calls the API for content.
+     * At build time (nuxt generate) we need the list of published pages so each
+     * slug is prerendered to a static file, with its content baked into the
+     * output (the deployed site then serves content with zero API calls).
      *
-     * On a local build the API may legitimately be absent, so we fall back to
-     * crawlLinks. But on a CI/Netlify deploy an unreachable API means we would
-     * ship a silently empty static site, so there we fail the build loudly.
+     * Where that list comes from depends on NUXT_PUBLIC_API_BASE:
+     *   - an absolute URL (e.g. http://localhost:8000/api/v1) → fetch the live CMS
+     *   - a relative path  (e.g. /api-snapshot)               → read the committed
+     *     JSON snapshot under public/ (see `npm run snapshot`), so CI/Netlify can
+     *     build straight from git with no CMS reachable.
      */
     async 'nitro:config'(nitro) {
       if (nitro.dev) return
 
       const base = process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api/v1'
+      const fromSnapshot = base.startsWith('/')
       const isCiDeploy = !!(process.env.NETLIFY || process.env.CI)
+      const source = fromSnapshot ? `snapshot ${base}` : base
 
       try {
-        const res = await fetch(`${base}/pages`)
-        if (!res.ok) throw new Error(`GET ${base}/pages responded ${res.status}`)
-        const body = await res.json() as { data?: Array<{ slug: string }> }
-        const routes = (body.data ?? []).map(p => (p.slug === 'home' ? '/' : `/${p.slug}`))
+        let pages: Array<{ slug: string }>
+        if (fromSnapshot) {
+          const file = resolve(process.cwd(), 'public', base.replace(/^\//, ''), 'pages.json')
+          const body = JSON.parse(readFileSync(file, 'utf8')) as { data?: Array<{ slug: string }> }
+          pages = body.data ?? []
+        } else {
+          const res = await fetch(`${base}/pages`)
+          if (!res.ok) throw new Error(`GET ${base}/pages responded ${res.status}`)
+          const body = await res.json() as { data?: Array<{ slug: string }> }
+          pages = body.data ?? []
+        }
 
+        const routes = pages.map(p => (p.slug === 'home' ? '/' : `/${p.slug}`))
         nitro.prerender ||= {}
         nitro.prerender.routes = [...(nitro.prerender.routes ?? []), ...routes]
         // eslint-disable-next-line no-console
-        console.info(`[prerender] enumerated ${routes.length} page route(s) from ${base}`)
+        console.info(`[prerender] enumerated ${routes.length} page route(s) from ${source}`)
       } catch (err) {
-        const detail = `could not reach ${base}/pages — ${(err as Error).message}`
+        const detail = `could not read pages from ${source} — ${(err as Error).message}`
         if (isCiDeploy) {
           // Better a failed deploy than a green deploy that serves an empty site.
           throw new Error(
             `[prerender] ${detail}\n`
-            + 'This is a CI/Netlify build. Set NUXT_PUBLIC_API_BASE to your public '
-            + 'CMS API (e.g. https://cms.example.com/api/v1) in the Netlify environment.'
+            + 'This is a CI/Netlify build. Either commit a content snapshot '
+            + '(`npm run snapshot`, with NUXT_PUBLIC_API_BASE=/api-snapshot), or '
+            + 'point NUXT_PUBLIC_API_BASE at a reachable public CMS API.'
           )
         }
         // eslint-disable-next-line no-console

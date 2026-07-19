@@ -23,30 +23,52 @@ export interface SiteGlobals {
 export function useApi() {
   const apiBase = useRuntimeConfig().public.apiBase
 
-  const url = (path: string) =>
-    `${apiBase.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
+  // A relative apiBase (e.g. "/api-snapshot") means we read the committed content
+  // snapshot instead of a live API. During SSR/prerender there is no server on
+  // the static host, so we read the JSON straight from disk; on the client we
+  // fetch the shipped static file. An absolute base talks to the live CMS.
+  const fromSnapshot = apiBase.startsWith('/')
+
+  async function request<T>(path: string, query?: Record<string, unknown>): Promise<T> {
+    const rel = `${apiBase.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
+
+    if (fromSnapshot) {
+      const file = `${rel}.json`
+      if (import.meta.server) {
+        // Read the committed snapshot from public/ at prerender time.
+        const [{ readFileSync }, { resolve }] = await Promise.all([
+          import('node:fs'),
+          import('node:path')
+        ])
+        const abs = resolve(process.cwd(), 'public', file.replace(/^\//, ''))
+        return JSON.parse(readFileSync(abs, 'utf8')) as T
+      }
+      return $fetch<T>(file, query ? { query } : undefined)
+    }
+
+    return $fetch<T>(rel, query ? { query } : undefined)
+  }
 
   const unwrap = <T>(res: ApiEnvelope<T>) => res.data
 
   return {
     apiBase,
-    url,
 
     getPage: (slug: string) =>
-      $fetch<ApiEnvelope<PageData>>(url(`pages/${slug}`)).then(unwrap),
+      request<ApiEnvelope<PageData>>(`pages/${slug}`).then(unwrap),
 
     getPages: () =>
-      $fetch<ApiEnvelope<PageListItemData[]>>(url('pages')).then(unwrap),
+      request<ApiEnvelope<PageListItemData[]>>('pages').then(unwrap),
 
     getNavigation: () =>
-      $fetch<ApiEnvelope<NavItem[]>>(url('navigation')).then(unwrap),
+      request<ApiEnvelope<NavItem[]>>('navigation').then(unwrap),
 
     getGlobals: () =>
-      $fetch<ApiEnvelope<SiteGlobals>>(url('globals')).then(unwrap),
+      request<ApiEnvelope<SiteGlobals>>('globals').then(unwrap),
 
-    // Draft preview — `query` carries the signed { expires, signature } params
-    // handed over by Filament's "Preview" action.
+    // Draft preview needs the live CMS (signed { expires, signature } query from
+    // Filament's "Preview" action); it has no snapshot equivalent.
     getPreview: (slug: string, query: Record<string, unknown>) =>
-      $fetch<ApiEnvelope<PageData>>(url(`preview/pages/${slug}`), { query }).then(unwrap)
+      request<ApiEnvelope<PageData>>(`preview/pages/${slug}`, query).then(unwrap)
   }
 }

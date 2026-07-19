@@ -1,0 +1,80 @@
+{
+  "data": {
+    "slug": "home",
+    "title": "Home",
+    "seo": {
+      "title": "Decoupled Filament + Nuxt starter",
+      "description": "A page built from reusable blocks in Filament and rendered by Nuxt UI.",
+      "ogImage": null
+    },
+    "blocks": [
+      {
+        "type": "page_section",
+        "data": {
+          "title": "Author in Filament, render with Nuxt UI",
+          "headline": "Decoupled CMS",
+          "description": "This whole section is a \"page_section\" block. Every field you see was set in the CMS and delivered as JSON — edit it in Filament and the frontend updates with no coding change.",
+          "icon": "i-lucide-rocket",
+          "orientation": "horizontal",
+          "reverse": false,
+          "links": [
+            {
+              "label": "See the About page",
+              "to": "/about",
+              "href": null,
+              "icon": null,
+              "trailingIcon": "i-lucide-arrow-right",
+              "color": "secondary",
+              "variant": "solid"
+            },
+            {
+              "label": "Nuxt UI Page Section",
+              "to": null,
+              "href": "https://ui.nuxt.com/docs/components/page-section",
+              "icon": null,
+              "trailingIcon": "i-lucide-external-link",
+              "color": "neutral",
+              "variant": "outline"
+            }
+          ],
+          "features": [
+            {
+              "icon": "i-lucide-blocks",
+              "title": "Reusable blocks",
+              "description": "Each block maps 1:1 to a Nuxt UI component.",
+              "to": null
+            },
+            {
+              "icon": "i-lucide-unplug",
+              "title": "Detachable",
+              "description": "Run integrated with Laravel or as a static Netlify site.",
+              "to": null
+            },
+            {
+              "icon": "i-lucide-git-compare-arrows",
+              "title": "Type-safe contract",
+              "description": "DTOs generate the frontend TypeScript types.",
+              "to": null
+            }
+          ],
+          "ui": []
+        }
+      },
+      {
+        "type": "page_section",
+        "data": {
+          "title": "Add blocks without touching the frontend",
+          "headline": null,
+          "description": "Run `php artisan make:block Hero`, drop a Hero.vue in the frontend, and the new block appears in the page builder.",
+          "icon": null,
+          "orientation": "vertical",
+          "reverse": false,
+          "links": [],
+          "features": [],
+          "ui": []
+        }
+      }
+    ],
+    "updatedAt": "2026-07-19T19:49:00+00:00"
+  }
+}

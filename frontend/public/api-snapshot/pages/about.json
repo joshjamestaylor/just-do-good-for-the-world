@@ -1,0 +1,38 @@
+{
+  "data": {
+    "slug": "about",
+    "title": "About",
+    "seo": {
+      "title": "About this starter",
+      "description": "A second page — proving dynamic slug routes are enumerated and prerendered.",
+      "ogImage": null
+    },
+    "blocks": [
+      {
+        "type": "page_section",
+        "data": {
+          "title": "A second, statically-prerendered page",
+          "headline": "About",
+          "description": "This page exists only in the CMS. At build time the Nuxt prerender hook enumerates it from the API and emits /about/index.html — no route was hand-written on the frontend.",
+          "icon": null,
+          "orientation": "vertical",
+          "reverse": false,
+          "links": [
+            {
+              "label": "Back home",
+              "to": "/",
+              "href": null,
+              "icon": "i-lucide-arrow-left",
+              "trailingIcon": null,
+              "color": "neutral",
+              "variant": "subtle"
+            }
+          ],
+          "features": [],
+          "ui": []
+        }
+      }
+    ],
+    "updatedAt": "2026-07-19T15:16:05+00:00"
+  }
+}

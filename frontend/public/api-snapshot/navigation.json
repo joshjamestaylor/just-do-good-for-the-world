@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "label": "About",
+      "to": "/about"
+    },
+    {
+      "label": "Home",
+      "to": "/"
+    }
+  ]
+}

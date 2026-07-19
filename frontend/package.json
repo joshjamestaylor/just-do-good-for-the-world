@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
     "generate": "nuxt generate",
+    "snapshot": "node scripts/snapshot.mjs",
     "types:generate": "cd ../backend && php artisan typescript:transform"
   },
   "dependencies": {
