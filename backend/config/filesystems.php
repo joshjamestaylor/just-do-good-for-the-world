@@ -41,7 +41,14 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            // Root-relative on purpose: the Filament admin renders upload previews
+            // from this URL, and FilePond loads them with `crossorigin`. An absolute
+            // URL (APP_URL/storage) is cross-origin whenever you browse the admin at a
+            // different host than APP_URL (e.g. 127.0.0.1:8000 vs localhost:8000),
+            // which blocks the preview and hangs it on "Waiting for size". A relative
+            // "/storage/…" is always same-origin as the page. The decoupled API needs
+            // an absolute URL, so MediaUrlTransformer prepends APP_URL there.
+            'url' => '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

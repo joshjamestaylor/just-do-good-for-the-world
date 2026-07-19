@@ -27,6 +27,10 @@ class MediaUrlTransformer implements Transformer
             return $value;
         }
 
-        return Storage::disk('public')->url($value);
+        // The public disk URL is root-relative ("/storage/…") so the Filament admin
+        // loads previews same-origin (see config/filesystems.php). The API is consumed
+        // cross-origin by the decoupled frontend, so prepend the app origin to make it
+        // absolute — keeping the API output identical to an absolute-disk-URL setup.
+        return rtrim(config('app.url'), '/').Storage::disk('public')->url($value);
     }
 }
