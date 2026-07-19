@@ -13,7 +13,7 @@
         "data": {
           "title": "Author in Filament, render with Nuxt UI",
           "headline": "Decoupled CMS",
-          "description": "This whole section is a \"page_section\" block. Every field you see was set in the CMS and delivered as JSON — edit it in Filament and the frontend updates with no coding change.",
+          "description": "This whole section is a \"page_section\" block. Every field you see was set in the CMS and delivered as JSON — edit it in Filament and the frontend updates with no code change.",
           "icon": "i-lucide-rocket",
           "orientation": "horizontal",
           "reverse": false,
@@ -75,6 +75,6 @@
         }
       }
     ],
-    "updatedAt": "2026-07-19T19:49:00+00:00"
+    "updatedAt": "2026-07-19T21:09:52+00:00"
   }
 }
