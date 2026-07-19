@@ -63,7 +63,7 @@ class PageSectionBlock extends PageBlock
             Toggle::make('reverse')
                 ->helperText('Swap the text / media order (horizontal only)'),
             FileUpload::make('image')
-                ->label('Illustration')
+                ->label('Image')
                 ->image()
                 ->imageEditor()
                 // Stored on the public disk so it is reachable at APP_URL/storage/…;
