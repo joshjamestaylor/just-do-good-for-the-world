@@ -41,16 +41,22 @@ export default defineNuxtConfig({
   hooks: {
     /**
      * At build time (nuxt generate), enumerate every published page from the API
-     * so each slug is prerendered to a static file. Falls back to crawlLinks if
-     * the API is unreachable, so the build never hard-fails on this.
+     * so each slug is prerendered to a static file — the response is baked into
+     * the static output, so the deployed site never calls the API for content.
+     *
+     * On a local build the API may legitimately be absent, so we fall back to
+     * crawlLinks. But on a CI/Netlify deploy an unreachable API means we would
+     * ship a silently empty static site, so there we fail the build loudly.
      */
     async 'nitro:config'(nitro) {
       if (nitro.dev) return
 
       const base = process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api/v1'
+      const isCiDeploy = !!(process.env.NETLIFY || process.env.CI)
 
       try {
         const res = await fetch(`${base}/pages`)
+        if (!res.ok) throw new Error(`GET ${base}/pages responded ${res.status}`)
         const body = await res.json() as { data?: Array<{ slug: string }> }
         const routes = (body.data ?? []).map(p => (p.slug === 'home' ? '/' : `/${p.slug}`))
 
@@ -59,8 +65,17 @@ export default defineNuxtConfig({
         // eslint-disable-next-line no-console
         console.info(`[prerender] enumerated ${routes.length} page route(s) from ${base}`)
       } catch (err) {
+        const detail = `could not reach ${base}/pages — ${(err as Error).message}`
+        if (isCiDeploy) {
+          // Better a failed deploy than a green deploy that serves an empty site.
+          throw new Error(
+            `[prerender] ${detail}\n`
+            + 'This is a CI/Netlify build. Set NUXT_PUBLIC_API_BASE to your public '
+            + 'CMS API (e.g. https://cms.example.com/api/v1) in the Netlify environment.'
+          )
+        }
         // eslint-disable-next-line no-console
-        console.warn(`[prerender] could not reach ${base}/pages — relying on crawlLinks. ${(err as Error).message}`)
+        console.warn(`[prerender] ${detail} — relying on crawlLinks (local build).`)
       }
     }
   },

@@ -36,5 +36,14 @@ const links = computed(() =>
     :links="(links as any)"
     :features="(data.features as any)"
     :ui="ui"
-  />
+  >
+  <img
+      src="https://picsum.photos/400/400"
+
+      alt="Illustration"
+      class="w-full rounded-lg"
+      loading="lazy"
+    />
+
+  </UPageSection>
 </template>

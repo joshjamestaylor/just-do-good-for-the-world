@@ -11,8 +11,15 @@
 [build.environment]
   # Force a fully static export (bare "netlify" would be serverless).
   NITRO_PRESET = "netlify-static"
-  # Set NUXT_PUBLIC_API_BASE in the Netlify UI (or here) to your public API,
-  # e.g. https://cms.example.com/api/v1 — it is baked in at build time.
+  # Give the prerenderer headroom — the default ~2GB Node heap OOMs on larger
+  # page sets during `nuxt generate`.
+  NODE_OPTIONS = "--max-old-space-size=4096"
+  # REQUIRED for a git-triggered build: set NUXT_PUBLIC_API_BASE in the Netlify
+  # UI (or here) to your PUBLIC, internet-reachable API — e.g.
+  # https://cms.example.com/api/v1. It is baked in at build time. Without a
+  # reachable API the build has no content to prerender and will fail. Until the
+  # CMS is public, build locally and `netlify deploy --dir=.output/public` the
+  # finished folder instead of letting Netlify build.
 
 # SPA fallback so the token-guarded /preview/* route works on the static host.
 [[redirects]]

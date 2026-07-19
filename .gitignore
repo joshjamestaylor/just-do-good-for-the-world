@@ -5,3 +5,6 @@
 .vscode
 
 # Backend and frontend each have their own .gitignore.
+
+# Local Netlify folder
+.netlify
