@@ -17,6 +17,7 @@
           "icon": "i-lucide-rocket",
           "orientation": "horizontal",
           "reverse": false,
+          "image": null,
           "links": [
             {
               "label": "See the About page",
@@ -69,12 +70,13 @@
           "icon": null,
           "orientation": "vertical",
           "reverse": false,
+          "image": null,
           "links": [],
           "features": [],
           "ui": []
         }
       }
     ],
-    "updatedAt": "2026-07-19T21:09:52+00:00"
+    "updatedAt": "2026-07-19T21:24:49+00:00"
   }
 }

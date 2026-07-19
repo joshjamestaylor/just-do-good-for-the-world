@@ -3,6 +3,7 @@
 namespace App\Cms\Blocks;
 
 use App\Data\Blocks\PageSectionData;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -61,6 +62,17 @@ class PageSectionBlock extends PageBlock
                 ->native(false),
             Toggle::make('reverse')
                 ->helperText('Swap the text / media order (horizontal only)'),
+            FileUpload::make('image')
+                ->label('Illustration')
+                ->image()
+                ->imageEditor()
+                // Stored on the public disk so it is reachable at APP_URL/storage/…;
+                // the snapshot build downloads it into the static site's assets.
+                ->disk('public')
+                ->directory('page-sections')
+                ->visibility('public')
+                ->helperText('Shown as the section media (alongside the text)')
+                ->columnSpanFull(),
             Repeater::make('links')
                 ->schema([
                     TextInput::make('label')->required(),

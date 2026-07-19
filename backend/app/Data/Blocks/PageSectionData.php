@@ -2,7 +2,9 @@
 
 namespace App\Data\Blocks;
 
+use App\Data\Transformers\MediaUrlTransformer;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
+use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -24,6 +26,9 @@ class PageSectionData extends Data
         public ?string $icon = null,
         public string $orientation = 'vertical',
         public bool $reverse = false,
+        /** Absolute URL in API output; a disk-relative path is stored by Filament. */
+        #[WithTransformer(MediaUrlTransformer::class)]
+        public ?string $image = null,
         /** @var array<int, LinkData> */
         #[DataCollectionOf(LinkData::class)]
         public array $links = [],

@@ -17,6 +17,7 @@
           "icon": null,
           "orientation": "vertical",
           "reverse": false,
+          "image": null,
           "links": [
             {
               "label": "Back home",
