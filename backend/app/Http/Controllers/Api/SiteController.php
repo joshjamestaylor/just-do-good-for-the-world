@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Data\SiteGlobalsData;
 use App\Models\Page;
+use App\Models\SiteSetting;
 use Illuminate\Http\JsonResponse;
 
 class SiteController
@@ -27,10 +29,7 @@ class SiteController
     public function globals(): JsonResponse
     {
         return response()->json([
-            'data' => [
-                'siteName' => config('app.name'),
-                'year' => (int) date('Y'),
-            ],
+            'data' => SiteGlobalsData::fromSettings(SiteSetting::current()),
         ]);
     }
 }

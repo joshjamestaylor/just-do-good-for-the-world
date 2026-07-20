@@ -122,8 +122,36 @@ Base: `/api/v1`. All responses are wrapped in a `data` envelope.
 | GET | `/pages` | Published pages (id, slug, title, updatedAt) — nav + prerender enumeration |
 | GET | `/pages/{slug}` | Full page: seo + ordered `blocks` (published only) |
 | GET | `/navigation` | Menu built from published pages |
-| GET | `/globals` | Site-wide settings |
+| GET | `/globals` | Site-wide settings — site name + the brand colour palette |
 | GET | `/preview/pages/{slug}` | Draft-inclusive; requires a valid signed URL |
+
+## Global brand colours
+
+Site-wide colours are edited in Filament at **`/admin` → Settings → Brand** (`/admin/brand-settings`),
+stored in a single [`SiteSetting`](backend/app/Models/SiteSetting.php) row, and served on `/globals`. The
+model is deliberately flexible rather than a fixed Primary/Secondary/Tertiary: a brand has an **unlimited,
+ordered list** of colours, each with a `name`, a `hex`, and an **optional `role`**
+([`ColorRole`](backend/app/Enums/ColorRole.php): `primary`, `secondary`, `accent`, `neutral`, `background`,
+`text`). So a 2-colour and a 10-colour brand share one shape.
+
+```json
+"colors": [
+  { "name": "Brand Green", "hex": "#00C16A", "role": "primary" },
+  { "name": "Slate",       "hex": "#64748B", "role": "neutral" },
+  { "name": "Sunset Orange", "hex": "#F97316", "role": "accent" }
+]
+```
+
+**Status colours are separate.** Success / warning / error / info are a UI concept, not a branding one, so
+they default to conventional, accessible colours (green/amber/red/blue — provided by Nuxt UI's built-in
+aliases) and are only overridden when an editor flips `semanticColors.enabled` on.
+
+**How it themes the static site.** The frontend turns the palette into CSS custom properties
+([`buildBrandThemeCss`](frontend/app/utils/brandTheme.ts)) injected as an inline `<style>` in
+[`app.vue`](frontend/app/app.vue) — so it's **baked into every prerendered page** and the detached static
+build carries its own theme with no runtime API call. Roles that map to a Nuxt UI alias (`primary`,
+`secondary`, `neutral`) re-theme components automatically (shades are derived from the one stored hex via
+`color-mix()`); every colour is also exposed as `--brand-<name>` / `--brand-<role>` for content to use.
 
 ## Draft & preview
 
@@ -162,7 +190,8 @@ observer (deferred — not built in this starter).
 ## What's included vs deferred
 
 **Included:** Filament v5 page builder, the Page Section block end-to-end, JSON API, integrated/detached switch,
-static generation, draft + signed preview, generated TS types, `make:block` generator.
+static generation, draft + signed preview, generated TS types, `make:block` generator, editable global brand
+colours (baked into the static build).
 
 **Architected for but not built:** media library (blocks currently use text/icon/link fields), automatic
 Netlify rebuild-on-publish webhook, and i18n/multilingual.

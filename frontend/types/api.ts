@@ -2,6 +2,12 @@ export type BlockData = {
 type: string,
 data: Record<string, any>,
 };
+export type BrandColorData = {
+name: string,
+hex: string,
+role: ColorRole | null,
+};
+export type ColorRole = 'primary' | 'secondary' | 'accent' | 'neutral' | 'background' | 'text';
 export type FeatureData = {
 icon: string | null,
 title: string | null,
@@ -43,8 +49,21 @@ features: FeatureData[],
 ui: Record<string, string>,
 };
 export type PageStatus = 'draft' | 'published';
+export type SemanticColorsData = {
+enabled: boolean,
+success: string | null,
+warning: string | null,
+error: string | null,
+info: string | null,
+};
 export type SeoData = {
 title: string | null,
 description: string | null,
 ogImage: string | null,
+};
+export type SiteGlobalsData = {
+siteName: string,
+year: number,
+colors: BrandColorData[],
+semanticColors: SemanticColorsData,
 };

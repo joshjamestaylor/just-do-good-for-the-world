@@ -6,17 +6,27 @@ const { data: nav } = await useAsyncData('navigation', () => getNavigation(), {
   default: () => []
 })
 const { data: globals } = await useAsyncData('globals', () => getGlobals(), {
-  default: () => ({ siteName: 'Site', year: new Date().getFullYear() })
+  default: () => ({
+    siteName: 'Site',
+    year: new Date().getFullYear(),
+    colors: [],
+    semanticColors: { enabled: false, success: null, warning: null, error: null, info: null }
+  })
 })
 
 const navItems = computed(() =>
   (nav.value ?? []).map(item => ({ label: item.label, to: item.to }))
 )
 
+// The CMS brand palette, applied as CSS variables. Injecting it here means it is
+// rendered into the (pre)rendered HTML — the static build ships its own theme.
+const brandThemeCss = computed(() => (globals.value ? buildBrandThemeCss(globals.value) : ''))
+
 useHead({
   htmlAttrs: { lang: 'en' },
   link: [{ rel: 'icon', href: '/favicon.ico' }],
-  meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+  meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
+  style: [{ id: 'brand-theme', innerHTML: brandThemeCss }]
 })
 
 useSeoMeta({

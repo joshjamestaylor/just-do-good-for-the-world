@@ -1,4 +1,4 @@
-import type { PageData, PageListItemData } from '~~/types/api'
+import type { PageData, PageListItemData, SiteGlobalsData } from '~~/types/api'
 
 /** Every response from the CMS is wrapped in a `data` envelope. */
 export interface ApiEnvelope<T> {
@@ -10,10 +10,8 @@ export interface NavItem {
   to: string
 }
 
-export interface SiteGlobals {
-  siteName: string
-  year: number
-}
+/** The `/globals` payload — generated from the backend DTO (single source of truth). */
+export type SiteGlobals = SiteGlobalsData
 
 /**
  * The single gateway to the CMS JSON API. Everything the frontend fetches goes
