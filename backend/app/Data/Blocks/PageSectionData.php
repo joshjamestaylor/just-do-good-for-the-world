@@ -28,6 +28,10 @@ class PageSectionData extends Data
         public bool $reverse = false,
         /** Optional CSS background colour for the whole section band (hex, e.g. "#0057FF"); null = transparent. */
         public ?string $backgroundColor = null,
+        /** Optional brand-colour *name* for the section text; resolves to the
+         *  --brand-<slug> variable. null = Nuxt UI defaults. Use a light colour
+         *  on a dark background. */
+        public ?string $textColor = null,
         /** Optional full-bleed background image behind the section; absolute URL in API output. */
         #[WithTransformer(MediaUrlTransformer::class)]
         public ?string $backgroundImage = null,

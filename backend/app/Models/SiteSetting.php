@@ -29,4 +29,29 @@ class SiteSetting extends Model
     {
         return static::firstOrCreate([]);
     }
+
+    /**
+     * The brand palette as `name => label` options for a colour <select> (e.g. a
+     * block's background). The stored value is the colour's name, which the
+     * frontend resolves to the matching `--brand-<slug>` CSS variable.
+     *
+     * @return array<string, string>
+     */
+    public function brandColorOptions(): array
+    {
+        $options = [];
+
+        foreach ($this->colors ?? [] as $color) {
+            $name = $color['name'] ?? null;
+
+            if (! $name) {
+                continue;
+            }
+
+            $role = $color['role'] ?? null;
+            $options[$name] = $role ? "{$name} (".ucfirst($role).')' : $name;
+        }
+
+        return $options;
+    }
 }

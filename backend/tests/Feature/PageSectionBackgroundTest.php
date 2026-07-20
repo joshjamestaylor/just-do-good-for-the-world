@@ -21,7 +21,8 @@ class PageSectionBackgroundTest extends TestCase
             'content' => [
                 ['type' => 'page_section', 'data' => [
                     'title' => 'Tinted + image',
-                    'backgroundColor' => '#EFFDF5',
+                    // A brand-colour *name* (resolved to --brand-<slug> on the frontend).
+                    'backgroundColor' => 'Sunset Orange',
                     'backgroundImage' => 'page-backgrounds/hero.jpg',
                     'backgroundPosition' => 'left',
                 ]],
@@ -31,9 +32,9 @@ class PageSectionBackgroundTest extends TestCase
 
         $response = $this->getJson('/api/v1/pages/colours')->assertOk();
 
-        // Colour + position pass through; the image path becomes an absolute URL.
+        // Colour reference + position pass through; the image path becomes an absolute URL.
         $response
-            ->assertJsonPath('data.blocks.0.data.backgroundColor', '#EFFDF5')
+            ->assertJsonPath('data.blocks.0.data.backgroundColor', 'Sunset Orange')
             ->assertJsonPath('data.blocks.0.data.backgroundPosition', 'left');
 
         $this->assertStringContainsString(

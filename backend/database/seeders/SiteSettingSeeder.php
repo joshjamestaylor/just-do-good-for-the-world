@@ -18,6 +18,7 @@ class SiteSettingSeeder extends Seeder
                 ['name' => 'Brand Green', 'hex' => '#00C16A', 'role' => 'primary'],
                 ['name' => 'Slate', 'hex' => '#64748B', 'role' => 'neutral'],
                 ['name' => 'Sunset Orange', 'hex' => '#F97316', 'role' => 'accent'],
+                ['name' => 'Mist', 'hex' => '#F1F5F9', 'role' => 'background'],
             ],
             'semantic_colors' => [
                 'enabled' => false,

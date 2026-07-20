@@ -43,7 +43,10 @@ const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i
 
 const isHex = (v: string | null | undefined): v is string => !!v && HEX.test(v.trim())
 
-const slugify = (name: string) =>
+/** Slug used for the `--brand-<slug>` variable name. Exported so consumers that
+ *  reference a brand colour by name (e.g. a block's background) resolve to the
+ *  exact same variable this file emits. */
+export const slugify = (name: string) =>
   name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
 /** The 11 `--ui-color-<alias>-<shade>` lines that re-theme one Nuxt UI colour. */

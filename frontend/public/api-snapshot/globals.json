@@ -17,6 +17,11 @@
         "name": "Sunset Orange",
         "hex": "#F97316",
         "role": "accent"
+      },
+      {
+        "name": "Mist",
+        "hex": "#F1F5F9",
+        "role": "background"
       }
     ],
     "semanticColors": {

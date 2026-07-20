@@ -3,7 +3,7 @@
 namespace App\Cms\Blocks;
 
 use App\Data\Blocks\PageSectionData;
-use Filament\Forms\Components\ColorPicker;
+use App\Models\SiteSetting;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
@@ -64,9 +64,18 @@ class PageSectionBlock extends PageBlock
                 ->native(false),
             Toggle::make('reverse')
                 ->helperText('Swap the text / media order (horizontal only)'),
-            ColorPicker::make('backgroundColor')
+            Select::make('backgroundColor')
                 ->label('Background colour')
-                ->helperText('Optional colour band behind the whole section. Empty = transparent. Note: a fixed hex does not change between light/dark mode — for a background that follows the theme, use a Nuxt UI class (e.g. "bg-muted") in the UI overrides below.'),
+                ->options(fn (): array => SiteSetting::current()->brandColorOptions())
+                ->native(false)
+                ->placeholder('None (transparent)')
+                ->helperText('Choose from the brand palette (Settings → Brand). Editing a colour there updates every section that uses it. Add a "background"-role colour there for a subtle section band.'),
+            Select::make('textColor')
+                ->label('Text colour')
+                ->options(fn (): array => SiteSetting::current()->brandColorOptions())
+                ->native(false)
+                ->placeholder('Default')
+                ->helperText('Choose from the brand palette. Sets the section title & description colour — pick a light colour when the background is dark.'),
             FileUpload::make('backgroundImage')
                 ->label('Background image')
                 ->image()
