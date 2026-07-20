@@ -3,6 +3,7 @@
 namespace App\Cms\Blocks;
 
 use App\Data\Blocks\PageSectionData;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
@@ -10,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Icons\Heroicon;
 
 /**
@@ -62,6 +64,24 @@ class PageSectionBlock extends PageBlock
                 ->native(false),
             Toggle::make('reverse')
                 ->helperText('Swap the text / media order (horizontal only)'),
+            ColorPicker::make('backgroundColor')
+                ->label('Background colour')
+                ->helperText('Optional colour band behind the whole section. Empty = transparent. Note: a fixed hex does not change between light/dark mode — for a background that follows the theme, use a Nuxt UI class (e.g. "bg-muted") in the UI overrides below.'),
+            FileUpload::make('backgroundImage')
+                ->label('Background image')
+                ->image()
+                ->imageEditor()
+                ->disk('public')
+                ->directory('page-backgrounds')
+                ->visibility('public')
+                ->helperText('Optional full-bleed image behind the section content (sits under the background colour).'),
+            Select::make('backgroundPosition')
+                ->label('Background image position')
+                ->options(['normal' => 'Normal (centre)', 'left' => 'Left', 'right' => 'Right'])
+                ->default('normal')
+                ->selectablePlaceholder(false)
+                ->native(false)
+                ->visible(fn (Get $get): bool => filled($get('backgroundImage'))),
             FileUpload::make('image')
                 ->label('Image')
                 ->image()

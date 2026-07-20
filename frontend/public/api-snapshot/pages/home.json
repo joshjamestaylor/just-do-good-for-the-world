@@ -16,7 +16,10 @@
           "description": "This whole section is a \"page_section\" block. Every field you see was set in the CMS and delivered as JSON — edit it in Filament and the frontend updates with no code change.",
           "icon": "i-lucide-rocket",
           "orientation": "horizontal",
-          "reverse": true,
+          "reverse": false,
+          "backgroundColor": null,
+          "backgroundImage": null,
+          "backgroundPosition": "normal",
           "image": null,
           "links": [
             {
@@ -25,7 +28,7 @@
               "href": null,
               "icon": null,
               "trailingIcon": "i-lucide-arrow-right",
-              "color": "secondary",
+              "color": "primary",
               "variant": "solid"
             },
             {
@@ -70,6 +73,9 @@
           "icon": null,
           "orientation": "vertical",
           "reverse": false,
+          "backgroundColor": "#EFFDF5",
+          "backgroundImage": null,
+          "backgroundPosition": "normal",
           "image": null,
           "links": [],
           "features": [],
@@ -77,6 +83,6 @@
         }
       }
     ],
-    "updatedAt": "2026-07-19T22:20:04+00:00"
+    "updatedAt": "2026-07-20T13:11:06+00:00"
   }
 }

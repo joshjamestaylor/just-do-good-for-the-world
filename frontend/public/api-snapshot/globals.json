@@ -3,9 +3,21 @@
     "siteName": "Laravel",
     "year": 2026,
     "colors": [
-      { "name": "Brand Green", "hex": "#00C16A", "role": "primary" },
-      { "name": "Slate", "hex": "#64748B", "role": "neutral" },
-      { "name": "Sunset Orange", "hex": "#F97316", "role": "accent" }
+      {
+        "name": "Brand Green",
+        "hex": "#00C16A",
+        "role": "primary"
+      },
+      {
+        "name": "Slate",
+        "hex": "#64748B",
+        "role": "neutral"
+      },
+      {
+        "name": "Sunset Orange",
+        "hex": "#F97316",
+        "role": "accent"
+      }
     ],
     "semanticColors": {
       "enabled": false,

@@ -75,6 +75,9 @@ class PageSeeder extends Seeder
                             'description' => 'Run `php artisan make:block Hero`, drop a Hero.vue in the frontend, and the new block appears in the page builder.',
                             'orientation' => 'vertical',
                             'reverse' => false,
+                            // Demonstrates the per-section background colour — set in the
+                            // CMS and baked into the prerendered HTML as an inline style.
+                            'backgroundColor' => '#EFFDF5',
                             'links' => [],
                             'features' => [],
                             'ui' => [],

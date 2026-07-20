@@ -26,6 +26,13 @@ class PageSectionData extends Data
         public ?string $icon = null,
         public string $orientation = 'vertical',
         public bool $reverse = false,
+        /** Optional CSS background colour for the whole section band (hex, e.g. "#0057FF"); null = transparent. */
+        public ?string $backgroundColor = null,
+        /** Optional full-bleed background image behind the section; absolute URL in API output. */
+        #[WithTransformer(MediaUrlTransformer::class)]
+        public ?string $backgroundImage = null,
+        /** How the background image is anchored: 'normal' (centre), 'left' or 'right'. */
+        public string $backgroundPosition = 'normal',
         /** Absolute URL in API output; a disk-relative path is stored by Filament. */
         #[WithTransformer(MediaUrlTransformer::class)]
         public ?string $image = null,
