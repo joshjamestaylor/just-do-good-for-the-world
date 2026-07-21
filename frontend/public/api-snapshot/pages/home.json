@@ -17,10 +17,10 @@
           "icon": "i-lucide-rocket",
           "orientation": "horizontal",
           "reverse": false,
-          "backgroundColor": null,
-          "textColor": null,
-          "backgroundImage": null,
-          "backgroundPosition": "normal",
+          "backgroundColor": "Slate",
+          "textColor": "White",
+          "backgroundImage": "/api-snapshot/assets/page-backgrounds/01KY1TFE9JRNEMCPEW7Z20MXP2.jpg",
+          "backgroundPosition": "right",
           "image": null,
           "links": [
             {
@@ -85,6 +85,6 @@
         }
       }
     ],
-    "updatedAt": "2026-07-21T07:43:42+00:00"
+    "updatedAt": "2026-07-21T07:50:35+00:00"
   }
 }
