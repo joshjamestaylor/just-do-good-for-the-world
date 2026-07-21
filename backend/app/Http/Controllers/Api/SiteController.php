@@ -14,6 +14,7 @@ class SiteController
     {
         $items = Page::query()
             ->published()
+            ->orderBy('menu_order')
             ->orderBy('title')
             ->get(['title', 'slug'])
             ->map(fn (Page $page): array => [

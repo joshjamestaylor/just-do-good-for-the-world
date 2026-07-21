@@ -11,6 +11,7 @@ class Page extends Model
     protected $fillable = [
         'slug',
         'title',
+        'menu_order',
         'status',
         'published_at',
         'seo',
@@ -21,6 +22,7 @@ class Page extends Model
     {
         return [
             'status' => PageStatus::class,
+            'menu_order' => 'integer',
             'published_at' => 'datetime',
             'seo' => 'array',
             'content' => 'array',

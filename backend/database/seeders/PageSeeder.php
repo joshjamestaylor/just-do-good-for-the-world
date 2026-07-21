@@ -14,6 +14,7 @@ class PageSeeder extends Seeder
             ['slug' => 'home'],
             [
                 'title' => 'Home',
+                'menu_order' => 0,
                 'status' => PageStatus::Published,
                 'published_at' => now(),
                 'seo' => [
@@ -92,6 +93,7 @@ class PageSeeder extends Seeder
             ['slug' => 'about'],
             [
                 'title' => 'About',
+                'menu_order' => 1,
                 'status' => PageStatus::Published,
                 'published_at' => now(),
                 'seo' => [

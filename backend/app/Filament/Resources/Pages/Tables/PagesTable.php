@@ -36,7 +36,11 @@ class PagesTable
                     ->sortable()
                     ->toggleable(),
             ])
-            ->defaultSort('updated_at', 'desc')
+            // Drag-to-reorder writes the row's position into `menu_order`, which
+            // drives the public nav order (SiteController::navigation). Default
+            // the list to that column so the admin table mirrors the live menu.
+            ->reorderable('menu_order')
+            ->defaultSort('menu_order')
             ->recordActions([
                 Action::make('preview')
                     ->icon('heroicon-o-eye')

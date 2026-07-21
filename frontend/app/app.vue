@@ -47,10 +47,24 @@ useSeoMeta({
         </NuxtLink>
       </template>
 
-      <UNavigationMenu :items="navItems" />
-
+      <!-- Desktop nav, right-aligned: the #right slot grows (`lg:flex-1`) and
+           justifies to the end. Hidden below `lg`, where the header's hamburger
+           toggle + the #body drawer take over. -->
       <template #right>
-        <UColorModeButton />
+        <UNavigationMenu
+          :items="navItems"
+          class="hidden lg:flex"
+        />
+      </template>
+
+      <!-- Mobile menu. The default (center) slot is `hidden lg:flex`, so the nav
+           has to be repeated here to appear in the drawer the toggle opens —
+           without this the mobile menu is empty. Vertical for the stacked list. -->
+      <template #body>
+        <UNavigationMenu
+          :items="navItems"
+          orientation="vertical"
+        />
       </template>
     </UHeader>
 
