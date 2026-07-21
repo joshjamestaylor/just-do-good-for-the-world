@@ -1,12 +1,12 @@
 {
   "data": [
     {
-      "label": "About",
-      "to": "/about"
-    },
-    {
       "label": "Home",
       "to": "/"
+    },
+    {
+      "label": "About",
+      "to": "/about"
     }
   ]
 }

@@ -5,22 +5,27 @@
     "colors": [
       {
         "name": "Brand Green",
-        "hex": "#00C16A",
+        "hex": "#ff0000",
         "role": "primary"
       },
       {
         "name": "Slate",
-        "hex": "#64748B",
+        "hex": "#242526",
         "role": "neutral"
       },
       {
         "name": "Sunset Orange",
-        "hex": "#F97316",
+        "hex": "#cc5805",
         "role": "accent"
       },
       {
         "name": "Mist",
         "hex": "#F1F5F9",
+        "role": "background"
+      },
+      {
+        "name": "White",
+        "hex": "#ffffff",
         "role": "background"
       }
     ],
